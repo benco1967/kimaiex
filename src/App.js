@@ -1,11 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import Login from "./Login";
+import {useState} from "react";
+import Projects from "./Projects";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const onLogin = (username, password) => {
+    setUser({username, password});
+  }
+  if (user === null) {
+    return (
+      <Login onLogin={onLogin}/>
+    );
+  }
   return (
+    <Projects user={user}/>
+  );
+}
+/*
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} className="App-logo" alt="logo"/>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -18,8 +34,5 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
-  );
-}
-
+    </div>*/
 export default App;
