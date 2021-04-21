@@ -1,39 +1,21 @@
 import {useState} from "react";
-import axios from "axios";
-import {URL_KIMAI} from "./common/parameters";
 import logo from "./logo.svg";
 import './Login.css';
 
-function Login({onLogin}) {
+function Login({onLogin, err}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(err);
 
   const onSubmit = async event => {
     event.preventDefault();
-    try {
-      setError(null);
-      const pong = await axios.get(`${URL_KIMAI}/api/ping`, {
-        headers: {
-          'X-AUTH-USER': username,
-          'X-AUTH-TOKEN': password,
-        }
-      });
-      console.log(pong)
-      if (pong.data?.message !== 'pong') {
-        throw new Error("wrong identification");
-      }
-      onLogin(username, password);
-
-    } catch (e) {
-      setError("Erreur d'identification")
-      console.error(e)
-    }
+    await onLogin(username, password);
   }
+  console.log(error)
   return (
     <div className="Login">
       <header className="Login-header">
-        <div className="Login-title ">Saisie des T emps</div>
+        <div className="Login-title ">Saisie des Temps</div>
         <img src={logo} width="30%" className="Login-logo" alt="logo"/>
 
       </header>

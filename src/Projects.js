@@ -1,55 +1,24 @@
-import {useState} from "react";
-import {URL_KIMAI} from "./common/parameters";
-import axios from "axios";
+import {ProjectItem} from "./ProjectItem";
 
 
-function Project({project: {name, color}}) {
-  return (
-    <div style={{'background-color':color}}>{name}</div>
-  );
-}
-function Projects({user: {username, password}}) {
-  const [projects, setProjects] = useState([])
-  const [state, setState] = useState(null);
-  const [error, setError] = useState(null);
-
-  const fetchProjects = async () => {
-    try {
-      setState(false);
-      const data = await axios.get(`${URL_KIMAI}/api/projects`, {
-        headers: {
-          'X-AUTH-USER': username,
-          'X-AUTH-TOKEN': password,
-        }
-      });
-      console.log(data.data);
-      setProjects(data.data);
-      setState(true);
-    } catch (e) {
-      setError('Impossible de récupérer les projets')
-      setState(null);
-      setProjects([]);
-    }
-
-  };
-
+function Projects({projects, loading, error, onUpdate, onSelectProject}) {
   return (
     <div>
       <h1>Projets</h1>
-      <div><button onClick={async () => await fetchProjects()}>Charger</button></div>
+      <div><button onClick={onUpdate}>Charger</button></div>
       {
         error && (<div className="Projects-error">
           {error}
         </div>)
       }
-      {state === null && (
+      {loading && (<div>Chargement...</div>)}
+      {!loading && !projects && (
         <div>Veuillez rafraîchir la liste</div>
       )}
-      {state === false && (<div>Chargement...</div>)}
-      {state === true && (
+      {!loading && projects && (
         <div>
           {
-            projects.map(project => (<Project key={project.id} project={project}/>))
+            projects.map(project => (<ProjectItem key={project.id} project={project} onSelect={() => onSelectProject(project.id)}/>))
           }
         </div>
       )}
