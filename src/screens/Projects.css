@@ -1,0 +1,6 @@
+.project-item {
+    border: 0.3vh solid lightgray;
+}
+.project-item.selected {
+    border: 0.3vh solid black;
+}

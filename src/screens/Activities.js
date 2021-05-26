@@ -1,9 +1,10 @@
 import {useState} from "react";
-import {ActivityItem} from "./ActivityItem";
-import {filterActivityByProject} from "./common/parameters";
+import {ActivityItem} from "../ActivityItem";
+import {filterActivityByProject} from "../common/parameters";
 
-function Project({project: {id, color, name}, activities, timesheets}) {
+function Activities({project:{id, name, color, date}, activities, timesheets}) {
   const [selected, setSelected] = useState(null);
+
   console.log(timesheets)
   console.log(selected)
   const getDuration = (id) => {
@@ -16,9 +17,6 @@ function Project({project: {id, color, name}, activities, timesheets}) {
   }
   return (
     <div>
-      <h1>{name}</h1>
-      <div style={{backgroundColor: color}}></div>
-      <h2>Calendrier</h2>
       <h2>Tâches</h2>
       {activities && activities
         .filter(filterActivityByProject(id))
@@ -26,9 +24,9 @@ function Project({project: {id, color, name}, activities, timesheets}) {
           <ActivityItem key={activity.id} activity={activity}
                         selected={i === selected} onSelect={() => setSelected(i)}
                         onValidate={onValidate}
-                        duration={getDuration(id)}/>))}
+                        duration={getDuration(activity.id)}/>))}
     </div>
   )
 }
 
-export default Project;
+export default Activities;
