@@ -1,0 +1,14 @@
+.prev, .next {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    text-decoration-line: initial;
+    margin: .3vh;
+    padding: .5vh;
+}
+.prev:before {
+    content: '< ';
+}
+.next:after {
+    content: ' >';
+}

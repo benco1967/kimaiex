@@ -2,5 +2,8 @@
     border: 0.3vh solid lightgray;
 }
 .project-item.selected {
+    color: white;
+    background-color: black;
     border: 0.3vh solid black;
+    font-weight: bold;
 }
