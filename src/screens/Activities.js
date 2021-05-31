@@ -17,7 +17,7 @@ function Activities({project:{id, name, color, date}, activities, timesheets}) {
   }
   return (
     <div>
-      <h2>Tâches</h2>
+      <h1>Tâches :</h1>
       {activities && activities
         .filter(filterActivityByProject(id))
         .map((activity, i) => (

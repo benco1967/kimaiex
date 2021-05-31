@@ -1,19 +1,22 @@
 import Header from "../items/Header";
 import Projects from "../screens/Projects";
 import Calendar from "../screens/Calendar";
-import {Link} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {useState} from "react";
 
 function ProjectsPage({setUser, params: {error, loading, projects, onUpdateProjects}}) {
     const [project, setProject] = useState(null);
     const [date, setDate] = useState(null);
-    console.log(date, project)
+    if(date !== null && project !== null) {
+        return (<Redirect to={`/projects/${project}/${date}`}/>);
+    }
     return (
         <div>
             <Header cmd="Déconnexion" title="Projets/Dates" error={error} loading={loading} onBack={() => setUser(null)}/>
-            <Link to={date !== null && project !== null && `/projects/${project}/${date}`}>Saisir les temps</Link>
-            <Projects loading={loading} projects={projects} onSelect={setProject} onUpdate={onUpdateProjects}/>
-            <Calendar onSelect={setDate}/>
+            <div className={'main'}>
+                <Calendar onSelect={setDate}/>
+                <Projects loading={loading} projects={projects} onSelect={setProject} onUpdate={onUpdateProjects}/>
+            </div>
         </div>
     );
 }

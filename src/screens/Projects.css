@@ -7,3 +7,15 @@
     border: 0.3vh solid black;
     font-weight: bold;
 }
+.projects-filter {
+    margin-bottom: 0.5vh;
+}
+.projects-button {
+    background-color: #606060;
+    font-size: initial;
+    font-weight: initial;
+    color: white;
+    padding: .5vh;
+    text-align: center;
+
+}

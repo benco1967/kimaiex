@@ -1,20 +1,48 @@
-.calendar-item {
+
+.calendar-nav {
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    grid-column-gap: 0.3vw;
+    grid-row-gap: 0.3vh;
+    align-items: stretch;
+}
+.calendar-nav .next, .calendar-nav .prev, .calendar-nav .today {
+    background-color: #606060;
+    color: white;
+    font-weight: bold;
+    padding: .5vh;
+    text-align: center;
+}
+.calendar {
+    display: grid;
+    grid-template-columns: 30% repeat(7, 10%) ;
+    grid-column-gap: 0.3vw;
+    grid-row-gap: 0.3vh;
+    align-items: center;
+}
+.calendar .month {
     background-color: #efefef;
+    font-weight: bold;
     border: 0.3vh solid #efefef;
 }
-.calendar-item.today {
+.calendar .weekday {
+    font-weight: bold;
+}
+.calendar .weekend {
+    font-style: italic;
+}
+.calendar .item {
+    background-color: #efefef;
+    border: 0.3vh solid #efefef;
+    justify-self: stretch;
+}
+.calendar .item.today {
     background-color: lightgray;
     border: 0.3vh solid lightgray;
 }
-.calendar-item.selected {
+.calendar .item.selected {
     color: white;
     background-color: black;
     border: 0.3vh solid black;
     font-weight: bold;
-}
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 10%);
-    grid-column-gap: 0.3vw;
-    grid-row-gap: 0.3vh;
 }

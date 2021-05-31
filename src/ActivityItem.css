@@ -1,3 +1,7 @@
 .selected {
     border: black 1vmin;
+    font-weight: bold;
+}
+.activity-title {
+    padding: .3vh;
 }

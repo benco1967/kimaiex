@@ -4,6 +4,7 @@ import Activities from "../screens/Activities";
 import {useEffect, useMemo, useState} from "react";
 import {getTimesheetsOf} from "../api/timesheets";
 import './ProjectPage.css';
+import {contrastedColor} from "../common/color";
 
 function ProjectPage({params: {user, projects, activities}}) {
     const {id, date: rawDate} = useParams();
@@ -38,12 +39,13 @@ function ProjectPage({params: {user, projects, activities}}) {
         <div>
             <Header cmd="Retour" title={projectName} error={error} loading={loading}
                     backPath="/projects"/>
-
-            <h2 style={{backgroundColor: project.color}}>Projet : {project.name}</h2>
-            <h2>Date : {formattedDate}</h2>
-            <Link className='prev' to={`/projects/${id}/${prev}`}>Jour précédent</Link>
-            <Link className='next' to={`/projects/${id}/${next}`}>Jour suivant</Link>
+<div className={'main'}>
+            <h1>Projet : {project.name}</h1>
+            <h1>Date : {formattedDate}</h1>
+            <Link className='day prev' to={`/projects/${id}/${prev}`}>Jour précédent</Link>
+            <Link className='day next' to={`/projects/${id}/${next}`}>Jour suivant</Link>
             <Activities project={project} activities={activities} date={date} timesheets={timesheets}/>
+</div>
         </div>
     );
 }

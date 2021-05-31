@@ -1,5 +1,6 @@
 import './ActivityItem.css';
 import {useState} from "react";
+import {contrastedColor} from "./common/color";
 
 export function ActivityItem({activity: {id, name, color}, selected, onSelect, onValidate, duration}) {
   const [time, setTime] = useState(duration);
@@ -17,8 +18,8 @@ export function ActivityItem({activity: {id, name, color}, selected, onSelect, o
     }
   }
   return (
-    <div className={selected ? 'selected' : ''} onClick={onSelect}>
-      <div style={{backgroundColor: color}}>{name} {duration}</div>
+    <div className={`${selected ? 'selected' : ''}`} onClick={onSelect}>
+      <div className={'activity-title'} style={{backgroundColor: color, color: contrastedColor(color)}}>{name} {duration}</div>
       {selected && (<div>
         <button onClick={onMinus}>-</button>
         <div>{time}</div>

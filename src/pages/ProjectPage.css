@@ -1,14 +1,14 @@
-.prev, .next {
-    background-color: black;
+.day.prev, .day.next {
+    background-color: #606060;
     color: white;
     font-weight: bold;
     text-decoration-line: initial;
     margin: .3vh;
     padding: .5vh;
 }
-.prev:before {
-    content: '< ';
+.day.prev:before {
+    content: '\25B2  ';
 }
-.next:after {
-    content: ' >';
+.day.next:after {
+    content: ' \25BC';
 }
