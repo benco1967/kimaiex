@@ -1,0 +1,15 @@
+
+.calendar-time {
+    display: grid;
+    grid-template-columns: 60% 20% 20%;
+    grid-column-gap: 0.3vw;
+    grid-row-gap: 0.3vh;
+    align-items: stretch;
+}
+.calendar-time div {
+    background-color: #606060;
+    color: white;
+    font-weight: bold;
+    padding: .5vh;
+    text-align: center;
+}

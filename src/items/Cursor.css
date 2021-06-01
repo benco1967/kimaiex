@@ -1,0 +1,18 @@
+
+.cursor {
+    display: grid;
+    grid-template-columns: repeat(48, 2.0833%);
+    grid-column-gap: 0;
+    align-items: stretch;
+    height: 5vh;
+}
+.cursor.small {
+    height: 1vh;
+}
+.cursor .slot {
+    background-color: #e0e0e0;
+}
+
+.cursor .slot.selected {
+    background-color: #303030;
+}

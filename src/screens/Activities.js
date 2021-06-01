@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {ActivityItem} from "../ActivityItem";
+import {useMemo, useState} from "react";
+import {ActivityItem} from "../items/ActivityItem";
 import {filterActivityByProject} from "../common/parameters";
 
 function Activities({project:{id, name, color, date}, activities, timesheets}) {
@@ -7,24 +7,24 @@ function Activities({project:{id, name, color, date}, activities, timesheets}) {
 
   console.log(timesheets)
   console.log(selected)
-  const getDuration = (id) => {
-    const timesheet = timesheets.find(ts => ts.activity === id);
-    return timesheet ? timesheet.duration / 3600 : 0;
-  }
   const onValidate = (id, newDuration) => {
     console.log('onValidate', id, newDuration)
     setSelected(0);
   }
+  const handleSelected = i => () => {
+    setSelected(selected !== i ? i : null);
+  }
   return (
     <div>
       <h1>Tâches :</h1>
-      {activities && activities
+      {!timesheets && (<div>Chargement...</div>)}
+      {timesheets && activities && activities
         .filter(filterActivityByProject(id))
         .map((activity, i) => (
           <ActivityItem key={activity.id} activity={activity}
-                        selected={i === selected} onSelect={() => setSelected(i)}
+                        selected={i === selected} onSelect={handleSelected(i)}
                         onValidate={onValidate}
-                        duration={getDuration(activity.id)}/>))}
+                        timesheets={timesheets}/>))}
     </div>
   )
 }

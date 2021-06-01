@@ -1,5 +1,5 @@
-import Header from "../items/Header";
-import Home from "../screens/Home";
+import Header from "../../items/Header";
+import Home from "../Home";
 
 function HomePage({setUser, params: {error, loading}}) {
     return (

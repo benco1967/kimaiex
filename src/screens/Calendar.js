@@ -1,10 +1,13 @@
 import './Calendar.css'
 import {useState} from "react";
+import {isDoubleTap} from "../common/doubleTap";
+import {Redirect} from "react-router-dom";
 
 const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
 function Calendar({onSelect}) {
     const [selected, setSelected] = useState(null);
+    const [redirect, setRedirect] = useState(null);
     const [offset, setOffset] = useState(0);
     const today = new Date().toISOString().slice(0, 10);
     let prevMonday = new Date();
@@ -24,6 +27,12 @@ function Calendar({onSelect}) {
         setSelected(null);
         onSelect(null);
         setOffset(off);
+    }
+    const handleDateSelect = date => () => {
+        setRedirect(`/calendar/${date}`);
+    }
+    if(redirect !== null) {
+        return (<Redirect to={redirect}/>);
     }
     return (
         <div>
@@ -47,7 +56,10 @@ function Calendar({onSelect}) {
                     dates.slice(0, 7).map(date => (
                         <div key={date}
                              className={`item${selected === date ? " selected" : ""}${date === today ? " today" : ""}`}
-                             onClick={handleSelect(date)}>{date.slice(8, 10)}</div>
+                             onClick={handleSelect(date)}
+                             onDoubleClick={handleDateSelect(date)}
+                             onTouchStart={e => isDoubleTap(e) && handleDateSelect(date)()}
+                        >{date.slice(8, 10)}</div>
                     ))
                 }
                 <div className={'month'}>{month2}</div>
@@ -55,7 +67,10 @@ function Calendar({onSelect}) {
                     dates.slice(7).map(date => (
                         <div key={date}
                              className={`item${selected === date ? " selected" : ""}${date === today ? " today" : ""}`}
-                             onClick={handleSelect(date)} onDoubleClick={() => console.log('double clic')}>{date.slice(8, 10)}</div>
+                             onClick={handleSelect(date)}
+                             onDoubleClick={handleDateSelect(date)}
+                             onTouchStart={e => isDoubleTap(e) && handleDateSelect(date)()}
+                        >{date.slice(8, 10)}</div>
                     ))
                 }
 

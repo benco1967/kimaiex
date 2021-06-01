@@ -5,8 +5,9 @@ import {login} from "./api/login";
 import {getProjects} from "./api/projects";
 import {getActivities} from "./api/activities";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import ProjectsPage from "./pages/ProjectsPage";
-import ProjectPage from "./pages/ProjectPage";
+import ProjectsPage from "./screens/pages/ProjectsPage";
+import ProjectPage from "./screens/pages/ProjectPage";
+import CalendarPage from "./screens/pages/CalendarPage";
 
 
 function App() {
@@ -64,7 +65,10 @@ function App() {
         <Router>
             <Switch>
                 <Route path="/projects/:id/:date">
-                    <ProjectPage params={params}/>
+                    <ProjectPage params={params} backPath={'/projects'}/>
+                </Route>
+                <Route path="/calendar/:date">
+                    <CalendarPage params={params}/>
                 </Route>
                 <Route path="/">
                     <ProjectsPage setUser={setUser} params={params}/>

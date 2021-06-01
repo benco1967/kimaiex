@@ -1,0 +1,56 @@
+.activity {
+    margin-top: 0.3vh;
+}
+.activity.selected {
+    border: darkgray solid 1px;
+    font-weight: bold;
+    margin-bottom: 0.3vh;
+}
+.activity .title {
+    padding: .5vh;
+}
+
+.edit-time {
+    display: grid;
+    grid-template-columns: repeat(13, 7.692%);
+    grid-column-gap: 0;
+    align-items: stretch;
+    margin-top: 1vh;
+}
+.edit-cursor {
+    display: grid;
+    grid-template-columns: repeat(48, 2.0833%);
+    grid-column-gap: 0;
+    align-items: stretch;
+    height: 4vh;
+}
+
+.edit-cursor .slot {
+    background-color: #e0e0e0;
+}.edit-cursor .slot.selected {
+     background-color: #303030;
+ }
+.edit-cursor .time {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: .5vh;
+    text-align: center;
+}
+
+.edit-buttons {
+    display: grid;
+    grid-template-columns: 25% 10% 10% 30%;
+    grid-column-gap: 0.3vw;
+    grid-row-gap: 0.3vh;
+    margin-top: 0.5vh;
+    align-items: center;
+}
+.edit-buttons .button {
+    background-color: #606060;
+    color: white;
+    font-weight: bold;
+    padding: .5vh;
+    text-align: center;
+}
+

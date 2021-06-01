@@ -1,6 +1,6 @@
-import Header from "../items/Header";
-import Projects from "../screens/Projects";
-import Calendar from "../screens/Calendar";
+import Header from "../../items/Header";
+import Projects from "../Projects";
+import Calendar from "../Calendar";
 import {Redirect} from "react-router-dom";
 import {useState} from "react";
 
