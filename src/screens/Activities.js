@@ -1,18 +1,16 @@
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import {ActivityItem} from "../items/ActivityItem";
 import {filterActivityByProject} from "../common/parameters";
 
-function Activities({project:{id, name, color, date}, activities, timesheets}) {
+function Activities({project:{id, name, color, date}, activities, timesheets, onChangeTime}) {
   const [selected, setSelected] = useState(null);
 
-  console.log(timesheets)
-  console.log(selected)
-  const onValidate = (id, newDuration) => {
-    console.log('onValidate', id, newDuration)
-    setSelected(0);
+  const handleValidate = (id, newDuration) => {
+    setSelected(null);
+    onChangeTime(id, newDuration);
   }
-  const handleSelected = i => () => {
-    setSelected(selected !== i ? i : null);
+  const handleSelected = activityId => () => {
+    setSelected(selected !== activityId ? activityId : null);
   }
   return (
     <div>
@@ -20,10 +18,10 @@ function Activities({project:{id, name, color, date}, activities, timesheets}) {
       {!timesheets && (<div>Chargement...</div>)}
       {timesheets && activities && activities
         .filter(filterActivityByProject(id))
-        .map((activity, i) => (
+        .map((activity) => (
           <ActivityItem key={activity.id} activity={activity}
-                        selected={i === selected} onSelect={handleSelected(i)}
-                        onValidate={onValidate}
+                        selected={activity.id === selected} onSelect={handleSelected(activity.id)}
+                        onValidate={handleValidate}
                         timesheets={timesheets}/>))}
     </div>
   )

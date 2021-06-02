@@ -1,20 +1,22 @@
 import './ActivityItem.css';
-import {useMemo, useState} from "react";
-import {contrastedColor} from "../common/color";
+import {useEffect, useState} from "react";
 import Cursor from './Cursor';
 import ColoredTime from "./ColoredTime";
 
 export function ActivityItem({activity: {id, name, color}, selected, onSelect, onValidate, timesheets}) {
     const timesheet = timesheets.find(ts => ts.activity === id);
-    const duration = timesheet ? timesheet.duration / 3600 : 0;
-    const [time, setTime] = useState(duration);
+    const duration = timesheet ? timesheet.duration : 0;
+    const [time, setTime] = useState(duration / 3600);
+    useEffect(() => {
+        setTime(duration / 3600);
+    }, [selected, duration]);
 
     const onSetTime = value => () => {
         console.log('set');
         setTime(value);
     }
     const onMinus = delta => () => {
-        console.log('minus');
+        console.log('minus', time);
         if (time - delta >= 0.) {
             setTime(time - delta);
         }
@@ -26,14 +28,17 @@ export function ActivityItem({activity: {id, name, color}, selected, onSelect, o
         }
     }
     const handleValidation = () => {
-        onValidate(id, time);
+        onValidate(id, time * 3600);
     }
 
+    const handleSelect = () => {
+        setTime(duration / 3600);
+        onSelect();
+    }
     const index = [...Array(13).keys()];
-    const times = Array.from({length: 48}, (_, i) => (i + 1) * .25);
     return (
         <div className={`activity ${selected ? 'selected' : ''}`}>
-            <ColoredTime title={name} duration={time} color={color} onClick={onSelect}/>
+            <ColoredTime title={name} duration={time} color={color} onClick={handleSelect}/>
             {selected && (
                 <div>
                     <div className={'edit-time'}>
@@ -46,7 +51,7 @@ export function ActivityItem({activity: {id, name, color}, selected, onSelect, o
                         <div/>
                         <div className={'button'} onClick={onMinus(.25)}>&#8722;</div>
                         <div className={'button'} onClick={onPlus(.25)}>&#43;</div>
-                        <div className={'button'} onClick={() => handleValidation}>Validation</div>
+                        <div className={'button'} onClick={handleValidation}>Validation</div>
                     </div>
                 </div>
             )}

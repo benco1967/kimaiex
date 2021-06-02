@@ -6,12 +6,14 @@ import {formatDate} from "../../common/dateUtil";
 import {getTimesheetsOf} from "../../api/timesheets";
 import './CalendarPage.css';
 import {contrastedColor} from "../../common/color";
+import ProjectsResume from "../../items/ProjectsResume";
 
 function CalendarPage({params: {user, projects, activities}}) {
     const {date: rawDate} = useParams();
     const date = useMemo(() => new Date(rawDate), [rawDate]);
     const today = date.toISOString().slice(0, 10);
-    const [timesheets, setTimesheets] = useState([]);
+    const [projectsData, setProjectsData] = useState(null);
+    const [duration, setDuration] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [redirection, setRedirection] = useState(null);
@@ -20,8 +22,22 @@ function CalendarPage({params: {user, projects, activities}}) {
             try {
                 setError(null);
                 setLoading(true);
+                setProjectsData(null);
+                setDuration(null);
                 const timesheets = await getTimesheetsOf(user, date);
-                setTimesheets(timesheets)
+                let duration = null;
+                const projectsData = timesheets.reduce((p, t) => {
+                    if (!(t.project in p)) {
+                        p[t.project] = {duration: 0, id: t.project};
+                    }
+                    duration += t.duration;
+                    p[t.project].duration += t.duration;
+                    return p;
+                }, {});
+                if(duration !== null) {
+                    setProjectsData(projectsData);
+                    setDuration(duration);
+                }
                 setLoading(false);
             } catch (e) {
                 console.log(e)
@@ -33,12 +49,6 @@ function CalendarPage({params: {user, projects, activities}}) {
 
         fetchData();
     }, [user, date]);
-    console.log('timesheets', timesheets);
-    const noTimesheet = timesheets === null || timesheets?.length === 0;
-    const duration = timesheets.reduce((d, {duration}) => {
-        d += duration / 3600
-        return d;
-    }, 0)
     const handleSelect = projetId => () => {
         setRedirection(`/projects/${projetId}/${today}`);
     }
@@ -52,21 +62,8 @@ function CalendarPage({params: {user, projects, activities}}) {
                     backPath={'/'}/>
             <div className={'main'}>
                 <CurrentDateSelector baseUrl={`/calendar`} date={date}/>
-                {duration > 0 ? (<h1>Temps : {duration}h</h1>) : (<h1>Temps</h1>)}
-
-                {!noTimesheet && (<div className={'calendar-time'}>{timesheets?.map(({activity, duration, project}) => {
-                    const p = projects.find(p => p.id == project);
-                    const a = activities.find(a => a.id === activity);
-                    return (
-                        <>
-                            <div style={{backgroundColor: p?.color, color: contrastedColor(p?.color)}} onClick={handleSelect(p?.id)}>{p?.name}</div>
-                            <div style={{backgroundColor: a?.color, color: contrastedColor(a?.color)}} onClick={handleSelect(p?.id)}>{a?.name}</div>
-                            <div onClick={handleSelect(p?.id)}>{duration / 3600}h</div>
-                        </>);
-                })}
-                </div>)}
-                {noTimesheet && !loading && (<div>Aucun temps enregistré</div>)}
-                {noTimesheet && loading && (<div>Chargement...</div>)}
+                {duration > 0 ? (<h1>Temps : {duration/3600}h</h1>) : (<h1>Temps : aucun</h1>)}
+                <ProjectsResume projects={projectsData} date={today} loading={loading} projectsDescription={projects}/>
             </div>
         </div>
     );
