@@ -46,6 +46,9 @@
     margin-top: 0.5vh;
     align-items: center;
 }
+.edit-buttons.installation {
+    grid-template-columns: 0 10% 10% 30% 9% 40%;
+}
 .edit-buttons .button {
     background-color: #606060;
     color: white;
@@ -54,3 +57,12 @@
     text-align: center;
 }
 
+.edit-buttons .button.installation {
+    background-color: #e0e0e0;
+    color: black;
+}
+
+.edit-buttons .button.installation.selected {
+    background-color: #606060;
+    color: white;
+}

@@ -12,3 +12,21 @@ export const getTimesheetsOf = async ({username, password, id}, date, project) =
   });
   return data.data;
 };
+export const patchTimesheet = async ({username, password}, id, timesheet) => {
+  const data = await axios.patch(`${URL_KIMAI}/api/timesheets/${id}`, timesheet, {
+    headers: {
+      'X-AUTH-USER': username,
+      'X-AUTH-TOKEN': password,
+    }
+  });
+  return data.data;
+}
+export const postTimesheet = async ({username, password}, timesheet) => {
+  const data = await axios.post(`${URL_KIMAI}/api/timesheets`, timesheet, {
+    headers: {
+      'X-AUTH-USER': username,
+      'X-AUTH-TOKEN': password,
+    }
+  });
+  return data.data;
+}

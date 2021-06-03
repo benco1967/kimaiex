@@ -1,11 +1,10 @@
-import {Redirect, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
 import Header from "../../items/Header";
 import CurrentDateSelector from "../CurrentDateSelector";
 import {formatDate} from "../../common/dateUtil";
 import {getTimesheetsOf} from "../../api/timesheets";
 import './CalendarPage.css';
-import {contrastedColor} from "../../common/color";
 import ProjectsResume from "../../items/ProjectsResume";
 
 function CalendarPage({params: {user, projects, activities}}) {
@@ -16,7 +15,6 @@ function CalendarPage({params: {user, projects, activities}}) {
     const [duration, setDuration] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [redirection, setRedirection] = useState(null);
     useEffect(() => {
         async function fetchData() {
             try {
@@ -49,13 +47,7 @@ function CalendarPage({params: {user, projects, activities}}) {
 
         fetchData();
     }, [user, date]);
-    const handleSelect = projetId => () => {
-        setRedirection(`/projects/${projetId}/${today}`);
-    }
 
-    if (redirection !== null) {
-        return (<Redirect to={redirection}/>);
-    }
     return (
         <div>
             <Header cmd="Retour" title={formatDate(date)} error={error} loading={loading}

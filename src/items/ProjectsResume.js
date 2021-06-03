@@ -1,5 +1,4 @@
-import {useState} from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import ColoredTime from "./ColoredTime";
 
 function ProjectsResume({loading, projects, projectsDescription, date}) {

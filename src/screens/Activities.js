@@ -5,9 +5,9 @@ import {filterActivityByProject} from "../common/parameters";
 function Activities({project:{id, name, color, date}, activities, timesheets, onChangeTime}) {
   const [selected, setSelected] = useState(null);
 
-  const handleValidate = (id, newDuration) => {
+  const handleValidate = (id, newDuration, lunchBox) => {
     setSelected(null);
-    onChangeTime(id, newDuration);
+    onChangeTime(id, newDuration, lunchBox);
   }
   const handleSelected = activityId => () => {
     setSelected(selected !== activityId ? activityId : null);
