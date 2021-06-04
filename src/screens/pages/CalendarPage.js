@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
 import Header from "../../items/Header";
 import CurrentDateSelector from "../CurrentDateSelector";
@@ -44,6 +44,11 @@ function CalendarPage({params: {user, projects}}) {
         fetchData();
     }, [user, date]);
 
+    if(projects.length === 0) {
+        return (
+          <Redirect to={'/'}/>
+        );
+    }
     return (
         <div>
             <Header cmd="Retour" title={formatDate(date)} error={error} loading={loading}
