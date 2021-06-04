@@ -12,7 +12,7 @@ export function ActivityItem({activity: {id, name, color}, selected, onSelect, o
     useEffect(() => {
         setTime(duration / 3600);
         setLunchBox(id === INSTALLATION_ACTIVITY_ID && timesheet && timesheet.tags.length > 0);
-    }, [selected, duration]);
+    }, [selected, duration, id, timesheet]);
 
     const onSetTime = value => () => {
         console.log('set');
@@ -44,7 +44,8 @@ export function ActivityItem({activity: {id, name, color}, selected, onSelect, o
     const index = [...Array(13).keys()];
     return (
         <div className={`activity ${selected ? 'selected' : ''}`}>
-            <ColoredTime title={name} duration={time} color={color} onClick={handleSelect} {...(id === INSTALLATION_ACTIVITY_ID && lunchBox && {extra: '(avec panier repas 🍴)'})}/>
+            <ColoredTime title={name} duration={time} color={color} onClick={handleSelect}
+                         {...(id === INSTALLATION_ACTIVITY_ID && lunchBox && {extra: '+ panier repas 🍴'})}/>
             {selected && (
                 <div>
                     <div className={'edit-time'}>

@@ -7,12 +7,11 @@ import {getTimesheetsOf} from "../../api/timesheets";
 import './CalendarPage.css';
 import ProjectsResume from "../../items/ProjectsResume";
 
-function CalendarPage({params: {user, projects, activities}}) {
+function CalendarPage({params: {user, projects}}) {
     const {date: rawDate} = useParams();
     const date = useMemo(() => new Date(rawDate), [rawDate]);
     const today = date.toISOString().slice(0, 10);
     const [projectsData, setProjectsData] = useState(null);
-    const [duration, setDuration] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
@@ -21,7 +20,6 @@ function CalendarPage({params: {user, projects, activities}}) {
                 setError(null);
                 setLoading(true);
                 setProjectsData(null);
-                setDuration(null);
                 const timesheets = await getTimesheetsOf(user, date);
                 let duration = null;
                 const projectsData = timesheets.reduce((p, t) => {
@@ -34,7 +32,6 @@ function CalendarPage({params: {user, projects, activities}}) {
                 }, {});
                 if(duration !== null) {
                     setProjectsData(projectsData);
-                    setDuration(duration);
                 }
                 setLoading(false);
             } catch (e) {
@@ -54,7 +51,6 @@ function CalendarPage({params: {user, projects, activities}}) {
                     backPath={'/'}/>
             <div className={'main'}>
                 <CurrentDateSelector baseUrl={`/calendar`} date={date}/>
-                {duration > 0 ? (<h1>Temps : {duration/3600}h</h1>) : (<h1>Temps : aucun</h1>)}
                 <ProjectsResume projects={projectsData} date={today} loading={loading} projectsDescription={projects}/>
             </div>
         </div>
