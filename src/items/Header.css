@@ -23,9 +23,10 @@
     background-color: dimgrey;
     font-weight: bold;
     font-size: 2vh;
+    text-decoration: none;
+    color: white;
 }
 .Header-title {
-    align-content: center;
     color: bisque;
     font-weight: bold;
     font-size: 4vh;
