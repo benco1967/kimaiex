@@ -1,5 +1,5 @@
 import Header from "../../items/Header";
-import {useParams} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import Activities from "../Activities";
 import {useEffect, useMemo, useState} from "react";
 import {getTimesheetsOf, patchTimesheet, postTimesheet} from "../../api/timesheets";
@@ -11,9 +11,8 @@ function ProjectPage({params: {user, projects, activities}, backPath}) {
     const {id, date: rawDate} = useParams();
     const projectId = useMemo(() => Number.parseInt(id), [id]);
     const date = useMemo(() => new Date(rawDate), [rawDate]);
-    console.log('date', rawDate, date)
     const project = useMemo(() => projects.find(({id}) => projectId === id), [projects, projectId]);
-    const projectName = useMemo(() => project.name.length > 12 ? `${project.name.slice(0, 10)}...` : project.name, [project]);
+    const projectName = useMemo(() => project?.name.length > 12 ? `${project?.name.slice(0, 10)}...` : project?.name, [project]);
     const [timesheets, setTimesheets] = useState(null);
     const [allProjects, setAllProjects] = useState(null);
     const [error, setError] = useState(null);
@@ -42,12 +41,10 @@ function ProjectPage({params: {user, projects, activities}, backPath}) {
             }
             setTimesheets(ownTimesheets);
             setLoading(false);
-            console.log('project timesheets', ownTimesheets, allProjects);
         } catch (e) {
-            console.log(e)
+            console.error(e);
             setLoading(false);
             setError("Erreur de récupération des données")
-            console.error(e)
         }
     }
 
@@ -58,7 +55,6 @@ function ProjectPage({params: {user, projects, activities}, backPath}) {
 
     const handleTimesheetSet = async (activityId, duration, lunchBox) => {
         const timesheet = timesheets.find(t => t.activity === activityId);
-        console.log('modified timesheet', duration, timesheet);
 
         const begin = `${rawDate}T07:00:00.000Z`;
         const end = new Date(new Date(begin).getTime() + duration * 1000).toISOString();
@@ -75,8 +71,6 @@ function ProjectPage({params: {user, projects, activities}, backPath}) {
             user: user.id,
             exported: false
         }
-        console.log(JSON.stringify(newTimesheet))
-
         if (timesheet) {
             if (timesheet.exported) {
                 // can't patch this timesheet because it's already exported
@@ -100,6 +94,11 @@ function ProjectPage({params: {user, projects, activities}, backPath}) {
         }
     }
 
+    if(!project) {
+        return (
+            <Redirect to={'/'}/>
+        )
+    }
     return (
         <div>
             <Header cmd="Retour" title={projectName} error={error} loading={loading}

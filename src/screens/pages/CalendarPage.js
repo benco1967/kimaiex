@@ -35,10 +35,9 @@ function CalendarPage({params: {user, projects}}) {
                 }
                 setLoading(false);
             } catch (e) {
-                console.log(e)
+                console.error(e);
                 setLoading(false);
                 setError("Erreur de récupération des données")
-                console.error(e)
             }
         }
 
