@@ -57,7 +57,7 @@ function App() {
 
     if (user === null) {
         return (
-            <Login onLogin={onLogin} error={error}/>
+            <Login onLogin={onLogin} error={error} location={window.location}/>
         );
     }
     const params= {error, loading, user, projects, onUpdateProjects, activities};
