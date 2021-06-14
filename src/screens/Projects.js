@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {contrastedColor} from "../common/color";
 
 function ProjectItem({project: {name, color}, selected, onSelect}) {
+    color = color || '#808080';
     return (
         <div className={`project-item${selected ? ' selected' : ''}`}
              style={selected ? {} : {backgroundColor: color, color: contrastedColor(color)}}
